@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Stegen!</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/style">
+    <link rel="stylesheet" href="/style_red">
+</head>
+
+<body>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <div class="w3-panel w3-sand" style="text-align: center;">
+        <h1>List of all registered games</h1>
+
+    </div>
+
+
+
+    <script type="text/javascript">
+        function createTable() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/json_match_log', true);
+            xhr.responseType = 'json';
+            xhr.onload = function () {
+                var status = xhr.status;
+                if (status === 200) {
+                    populate(xhr.response)
+                } else {
+                }
+            };
+            xhr.send();
+            populate = function (resp) {
+                var node = document.getElementById('tablebody');
+                for (var i = 0; i < resp.length; i++) {
+                    var newNode = document.createElement('tr')
+                    var tdNode1 = document.createElement('td')
+                    var tdNode2 = document.createElement('td')
+                    var tdNode3 = document.createElement('td')
+                    var tdNode4 = document.createElement('td')
+                    var tdNode5 = document.createElement('td')
+                    var tdNode6 = document.createElement('td')
+                    var tdNode7 = document.createElement('td')
+                    var tdNode8 = document.createElement('td')
+                    var tdNode9 = document.createElement('td')
+                    var tdNode10 = document.createElement('td')
+                    var tdNode11 = document.createElement('td')
+
+                    tdNode1.appendChild(document.createTextNode(resp[i].winner));
+                    tdNode2.appendChild(document.createTextNode(resp[i].loser));
+                    tdNode3.appendChild(document.createTextNode(resp[i].winner_wins));
+                    tdNode4.appendChild(document.createTextNode(resp[i].winner_losses));
+                    tdNode5.appendChild(document.createTextNode(resp[i].winner_sets_won));
+                    tdNode6.appendChild(document.createTextNode(0 - resp[i].winner_sets_lost_negative));
+                    tdNode7.appendChild(document.createTextNode(resp[i].loser_wins));
+                    tdNode8.appendChild(document.createTextNode(resp[i].loser_losses));
+                    tdNode9.appendChild(document.createTextNode(resp[i].loser_sets_won));
+                    tdNode10.appendChild(document.createTextNode(0 - resp[i].loser_sets_lost_negative));
+                    tdNode11.appendChild(document.createTextNode(resp[i].time_registered));
+
+                    newNode.appendChild(tdNode1)
+                    newNode.appendChild(tdNode2)
+                    newNode.appendChild(tdNode3)
+                    newNode.appendChild(tdNode4)
+                    newNode.appendChild(tdNode5)
+                    newNode.appendChild(tdNode6)
+                    newNode.appendChild(tdNode7)
+                    newNode.appendChild(tdNode8)
+                    newNode.appendChild(tdNode9)
+                    newNode.appendChild(tdNode10)
+                    newNode.appendChild(tdNode11)
+
+                    node.appendChild(newNode);
+                }
+            }
+        };
+
+    </script>
+
+
+
+
+
+    <div style="display: flex;">
+
+
+        <div style="width: 60%;">
+            <table class="w3-table w3-striped">
+                <tr>
+                    <th>Winner</th>
+                    <th>Loser</th>
+                    <th>Winner wins</th>
+                    <th>Winner losses</th>
+                    <th>Winner sets won</th>
+                    <th>Winner sets lost</th>
+                    <th>Loser wins</th>
+                    <th>Loser losses</th>
+                    <th>Loser sets won</th>
+                    <th>Loser sets lost</th>
+                    <th>Time of entry</th>
+                </tr>
+                <tbody id="tablebody">
+                    <script>createTable();</script>
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+
+
+</body>
+
+</html>
+<!---
+    commented out code goes here:
+    https://html5-editor.net/
+
+
+
+
+    --->

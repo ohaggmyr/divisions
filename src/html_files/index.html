@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Axis pickleball divisions</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/style">
+    <link rel="stylesheet" href="/style_red">
+</head>
+
+<body>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <div class="w3-panel w3-sand" style="text-align: center;">
+        <h3>Axis pickleball divisions</h3>
+
+    </div>
+
+    <div style="margin-left: 10px; width: 90%;">
+
+
+
+
+
+        <div style="margin-bottom: 10px;">
+            <div style="display: flex; margin-bottom: 5px; margin-left: 25px;">
+                <div style="display: flex; margin-right: 25px;">
+                    <p><strong>Use this form to submit the result of a game: </strong></p>
+                </div>
+                <div>
+                    <label class="w3-text-blue"><b>Axis username of the winner</b></label>
+                    <input style="width:250px; margin-right: 20px;" class="w3-input w3-border" type="text"
+                        id="winnerboxs" placeholder="Winner">
+                </div>
+                <div>
+                    <label class="w3-text-blue"><b>Axis username of the loser</b></label>
+                    <input style="width:250px; margin-right: 20px;" class="w3-input w3-border" type="text"
+                        id="loserboxs" placeholder="Loser">
+                </div>
+                <div style="display: flex; margin-right: 10px;">
+                    <p> Result of the game: </p>
+                </div>
+                <div style="display: flex; margin-right: 30px;">
+                    <form>
+                        <input type="radio" id="two_zero" name="score" value="zero">
+                        <label for="two_zero">2 - 0</label><br>
+                        <input type="radio" id="two_one" name="score" value="one">
+                        <label for="two_one">2 - 1</label><br>
+                    </form>
+                </div>
+                <button style="width:170px;" class="w3-button w3-white w3-border w3-border-blue w3-round-large"
+                    id="submit_result_singles">Submit result</button>
+            </div>
+
+            <div style="display: flex; margin-left: 30px;">
+                <p><a title="Log2" href="/match_log">Link to a log of all registered games.</a></p>
+            </div>
+
+            <div style="display: flex; margin-left: 30px;">
+                <label class=" w3-text-blue"><b>If the content of this page does not show properly, click the link
+                        to your
+                        division:</b></label>
+                <div style="display: flex; margin-left: 5px; margin-right: 5px;">
+                    <a title="register_singles" href="/standings_div1"><b> division 1</b></a>
+                </div>
+                <div style="display: flex; margin-left: 5px; margin-right: 5px;">
+                    <a title="register_singles" href="/standings_div2"><b> division 2</b></a>
+                </div>
+                <div style="display: flex; margin-left: 5px; margin-right: 5px;">
+                    <a title="register_singles" href="/standings_div3"><b> division 3</b></a>
+                </div>
+                <div style="display: flex; margin-left: 5px; margin-right: 5px;">
+                    <a title="register_singles" href="/standings_div4"><b> division 4</b></a>
+                </div>
+
+            </div>
+            <div style="display: flex; margin-left: 30px;">
+                <p>SW means sets won and SL means sets lost.</p>
+
+            </div>
+        </div>
+
+
+        <div style="display: flex; margin-left: 5px;">
+            <div style="width: 25%;">
+                <embed type="text/html" src="/standings_div1" width="800" height="1100">
+            </div>
+            <div style="margin-left: 20px; margin-right: 20px; width: 25%;">
+                <embed type="text/html" src="/standings_div2" width="800" height="1100">
+            </div>
+            <div style="margin-right: 20px; width: 25%;">
+                <embed type="text/html" src="/standings_div3" width="800" height="1100">
+            </div>
+            <div style="width: 25%;">
+                <embed type="text/html" src="/standings_div4" width="800" height="1100">
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>
+    <script>
+        $("#player_log").click(async function () {
+            var player = $("#player_loginput").val();
+            var data = { axis_username: player };
+            var url = "/player_log";
+            try {
+                const data2 = await post(url, data);
+                window.open('/player_history_new', '_self');
+            } catch (error) {
+                alert(error);
+            }
+        });
+        $("#two_player_log").click(async function () {
+            var player1 = $("#two_player_loginput1").val();
+            var player2 = $("#two_player_loginput2").val();
+
+            var data = { winner: player1, loser: player2 };
+            var url = "/two_player_log";
+            try {
+                const data2 = await post(url, data);
+                window.open('/two_player_history', '_self');
+            } catch (error) {
+                alert(error);
+            }
+        });
+        $("#submit_result_singles").click(async function () {
+            var name_of_winner = $("#winnerboxs").val();
+            var name_of_loser = $("#loserboxs").val();
+            var radioButtons = document.getElementsByName("score");
+            var loser_points;
+            if (radioButtons[0].checked == true) {
+                loser_points = 0;
+            } else if (radioButtons[1].checked == true) {
+                loser_points = 1;
+            } else {
+                alert("You need to submit the score of the game");
+                return;
+            }
+
+            var data = { winner: name_of_winner, loser: name_of_loser, points_loser: loser_points };
+            var url = "/register_result_singles";
+            try {
+                const data2 = await post(url, data);
+                //alert("You have succesfully submitted the result of the game");
+                location.reload();
+
+            } catch (error) {
+                alert(error);
+            }
+
+        });
+        async function post(url = '', data = '') {
+            const response = await fetch(url, {
+                method: "POST",
+                mode: "same-origin",
+                cache: 'no-cache',
+                credentials: "omit",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+            if (!response.ok) {
+                // create error object and reject if not a 2xx response code
+                if (response.status == 400) {
+                    var errorinfo = "There is no player with that axis-username.";
+                }
+                var err = new Error(errorinfo);
+                err.response = response;
+                err.status = response.status;
+                throw err;
+            }
+            return await response.text();
+        }
+    </script>
+
+
+    <script type="text/javascript">
+
+    </script>
+
+
+</body>
+
+</html>

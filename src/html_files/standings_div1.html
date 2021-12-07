@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Axis pickleball divisions</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/style">
+    <link rel="stylesheet" href="/style_red">
+</head>
+
+<body>
+    <script type="text/javascript">
+        function createTable0() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/table_div1', true);
+            xhr.responseType = 'json';
+            xhr.onload = function () {
+                var status = xhr.status;
+                if (status === 200) {
+                    populate(xhr.response)
+                } else {
+                }
+            };
+            xhr.send();
+            populate = function (resp) {
+                var node = document.getElementById('tablebody0');
+                for (var i = 0; i < resp.length; i++) {
+                    console.log(resp[i])
+                    var newNode = document.createElement('tr')
+                    var tdNode0 = document.createElement('td')
+                    var tdNode1 = document.createElement('td')
+                    var tdNode2 = document.createElement('td')
+                    var tdNode4 = document.createElement('td')
+                    var tdNode5 = document.createElement('td')
+                    var tdNode6 = document.createElement('td')
+                    var tdNode8 = document.createElement('td')
+                    var tdNode9 = document.createElement('td')
+
+                    var DOM_img = document.createElement("img");
+                    tdNode0.appendChild(document.createTextNode(i + 1));
+                    tdNode1.appendChild(document.createTextNode(resp[i].name));
+                    tdNode2.appendChild(document.createTextNode(resp[i].wins));
+                    tdNode4.appendChild(document.createTextNode(resp[i].losses));
+                    tdNode5.appendChild(document.createTextNode(resp[i].sets_won));
+                    tdNode6.appendChild(document.createTextNode(0 - resp[i].sets_lost_negative));
+                    var p = document.createElement('p');
+                    var x = "https://galaxis.axis.com/mysite/Person.aspx?accountname=AXISNET%5C".concat(resp[i].username);
+                    var t = '<a href="' + x + '" title="Link takes you to this persons page on galaxis">' + resp[i].username + '</a>';
+                    p.innerHTML = t;
+                    tdNode8.appendChild(p);
+
+                    tdNode9.appendChild(DOM_img);
+                    DOM_img.src = "/file/".concat(resp[i].username)
+                    DOM_img.style.width = "60px";
+                    DOM_img.style.height = "60px";
+                    newNode.appendChild(tdNode0)
+                    newNode.appendChild(tdNode1)
+                    newNode.appendChild(tdNode2)
+                    newNode.appendChild(tdNode4)
+                    newNode.appendChild(tdNode5)
+                    newNode.appendChild(tdNode6)
+                    newNode.appendChild(tdNode8)
+                    newNode.appendChild(tdNode9)
+                    node.appendChild(newNode);
+
+                    if (i > 5) {
+                        var tdNode10 = document.createElement('td')
+                        var DOM_img2 = document.createElement("img");
+                        tdNode10.appendChild(DOM_img2);
+                        DOM_img2.src = "/file/".concat("down")
+                        DOM_img2.style.width = "30px";
+                        DOM_img2.style.height = "30px";
+                        newNode.appendChild(tdNode10)
+                    }
+
+                }
+            }
+        };
+
+
+
+
+    </script>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+    <div style="display: flex; margin-left: 20px;">
+
+
+
+        <div>
+            <h3>Division 1</h3>
+            <table class="w3-table w3-striped">
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>W</th>
+                    <th>L</th>
+                    <th>SW</th>
+                    <th>SL</th>
+                    <th>username</th>
+                </tr>
+                <tbody id="tablebody0">
+                    <script>createTable0();</script>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
